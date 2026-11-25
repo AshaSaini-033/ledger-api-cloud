@@ -1,5 +1,7 @@
 package com.asha.ledger.common;
 
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -13,8 +15,10 @@ public class ApiExceptionHandler {
     ResponseEntity<?> badRequest(IllegalArgumentException ex) {
         return ResponseEntity.badRequest().body(Map.of("timestamp", Instant.now(), "status", 400, "error", ex.getMessage()));
     }
-    @ExceptionHandler(IllegalStateException.class)
-    ResponseEntity<?> conflict(IllegalStateException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("timestamp", Instant.now(), "status", 409, "error", ex.getMessage()));
+    @ExceptionHandler({IllegalStateException.class, ObjectOptimisticLockingFailureException.class,
+            DataIntegrityViolationException.class})
+    ResponseEntity<?> conflict(RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("timestamp", Instant.now(),
+                "status", 409, "error", "The operation conflicts with the current account or ledger state"));
     }
 }
