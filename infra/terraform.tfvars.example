@@ -1,0 +1,6 @@
+aws_region       = "ap-south-1"
+project_name     = "ledger-api-cloud"
+github_repository = "AshaSaini-033/ledger-api-cloud"
+db_username      = "ledgeradmin"
+db_password      = "REPLACE_WITH_A_LONG_RANDOM_DATABASE_PASSWORD"
+jwt_secret       = "REPLACE_WITH_AT_LEAST_32_RANDOM_BYTES_FOR_JWT_SIGNING"
