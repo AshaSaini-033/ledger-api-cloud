@@ -5,6 +5,7 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
@@ -51,10 +52,12 @@ public class AccountController {
     }
 
     @PostMapping("/{accountId}/close")
+    @Transactional
     public Map<String, String> close(@AuthenticationPrincipal CurrentUser user, @PathVariable UUID accountId) {
         Account account = owned(user.id(), accountId);
         if (account.getBalance().compareTo(BigDecimal.ZERO) != 0) throw new IllegalStateException("Account balance must be zero before closing");
         account.close();
+        accounts.save(account);
         return Map.of("status", "CLOSED");
     }
 
