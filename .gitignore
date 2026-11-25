@@ -3,5 +3,10 @@ target/
 *.log
 .idea/
 .vscode/
-terraform.tfstate*
 .terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+.DS_Store
