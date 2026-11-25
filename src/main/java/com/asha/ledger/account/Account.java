@@ -37,6 +37,8 @@ public class Account {
     public String getCurrency() { return currency; }
     public BigDecimal getBalance() { return balance; }
     public String getStatus() { return status; }
+    public Instant getCreatedAt() { return createdAt; }
+    public void close() { if (balance.compareTo(BigDecimal.ZERO) != 0) throw new IllegalStateException("Account balance must be zero before closing"); status = "CLOSED"; }
     public void credit(BigDecimal amount) { ensureActive(); balance = balance.add(amount); }
     public void debit(BigDecimal amount) {
         ensureActive();
