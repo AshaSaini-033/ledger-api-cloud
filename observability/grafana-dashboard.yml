@@ -1,0 +1,10 @@
+apiVersion: 1
+providers:
+  - name: Ledger API
+    orgId: 1
+    folder: Ledger API
+    type: file
+    disableDeletion: true
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards
