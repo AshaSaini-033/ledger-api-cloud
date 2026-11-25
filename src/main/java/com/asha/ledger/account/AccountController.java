@@ -3,6 +3,7 @@ package com.asha.ledger.account;
 import com.asha.ledger.auth.CurrentUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +24,11 @@ public class AccountController {
         this.users = users;
     }
 
-    public record CreateAccountRequest(@Pattern(regexp = "^[A-Za-z]{3}$") String currency) {}
+    public record CreateAccountRequest(@NotBlank @Pattern(regexp = "^[A-Za-z]{3}$") String currency) {}
     public record AccountResponse(UUID id, String currency, BigDecimal balance, String status, Instant createdAt) {
         static AccountResponse from(Account account) {
             return new AccountResponse(account.getId(), account.getCurrency(), account.getBalance(),
-                    account.getStatus(), Instant.now());
+                    account.getStatus(), account.getCreatedAt());
         }
     }
 
