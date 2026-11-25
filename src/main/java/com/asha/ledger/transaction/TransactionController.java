@@ -61,7 +61,7 @@ public class TransactionController {
     @Transactional(readOnly = true)
     public List<TransactionResponse> history(@AuthenticationPrincipal CurrentUser user, @PathVariable UUID accountId) {
         owned(user.id(), accountId);
-        return transactions.findTop100ByAccountIdOrderByCreatedAtDesc(accountId).stream()
+        return transactions.findTop100ByAccount_IdOrderByCreatedAtDesc(accountId).stream()
                 .map(TransactionResponse::from).toList();
     }
 
