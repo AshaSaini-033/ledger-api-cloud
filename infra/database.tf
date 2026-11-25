@@ -6,8 +6,7 @@ resource "aws_db_subnet_group" "ledger" {
 resource "aws_db_instance" "ledger" {
   identifier              = var.project_name
   engine                  = "postgres"
-  engine_version          = "16"
-  instance_class          = "db.t4g.micro"
+  instance_class          = "db.t3.micro"
   allocated_storage       = 20
   max_allocated_storage   = 50
   storage_type            = "gp3"
