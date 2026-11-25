@@ -29,7 +29,7 @@ public class TransferController {
     }
 
     public record TransferRequest(@NotNull UUID fromAccountId, @NotNull UUID toAccountId,
-                                  @DecimalMin("0.01") @Digits(integer = 17, fraction = 2) BigDecimal amount,
+                                  @NotNull @DecimalMin("0.01") @Digits(integer = 17, fraction = 2) BigDecimal amount,
                                   String description) {}
 
     @PostMapping
