@@ -23,6 +23,20 @@ env:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: ledger
+          POSTGRES_USER: ledger
+          POSTGRES_PASSWORD: ledger
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U ledger -d ledger"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - name: Check out source
         uses: actions/checkout@v4
@@ -33,6 +47,11 @@ jobs:
           java-version: "21"
           cache: maven
       - name: Run tests
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/ledger
+          SPRING_DATASOURCE_USERNAME: ledger
+          SPRING_DATASOURCE_PASSWORD: ledger
+          JWT_SECRET: ci-test-secret-that-is-long-enough-for-hmac-sha-256
         run: mvn -B verify
       - name: Configure AWS credentials using OIDC
         uses: aws-actions/configure-aws-credentials@v4
