@@ -6,6 +6,7 @@ import com.asha.ledger.auth.CurrentUser;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.DecimalMin;
 import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,7 +26,7 @@ public class TransactionController {
         this.transactions = transactions;
     }
 
-    public record AmountRequest(@DecimalMin("0.01") @Digits(integer = 17, fraction = 2) BigDecimal amount,
+    public record AmountRequest(@NotNull @DecimalMin("0.01") @Digits(integer = 17, fraction = 2) BigDecimal amount,
                                 String description) {}
     public record TransactionResponse(UUID id, String type, BigDecimal amount, UUID referenceId,
                                        java.time.Instant createdAt) {
